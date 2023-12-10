@@ -1,31 +1,38 @@
-import { useState } from 'react';
+
 import { nanoid } from 'nanoid';
 import css from '../Form/Form.module.css';
+import { useSelector, useDispatch } from "react-redux"
+import { addContact } from 'components/redux/mySlice';
 
-export default function Form({ onSubmit }) {
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
 
+export default function Form() {
+  const contacts = useSelector(state => state.myValue.contacts)
+  const dispatch = useDispatch();
   const nameId = nanoid();
   const numberId = nanoid();
-  const handleNameChange = event => {
-    setName(event.target.value);
-  };
-  const handleNumberChange = event => {
-    setNumber(event.target.value);
-  };
-  const handleSubmit = event => {
+
+  const handleSubmit = (event) => {
     event.preventDefault();
+    const form = event.currentTarget
+    const contact = {
+      id: nanoid(),
+      name: form.elements.name.value,
+      number: form.elements.number.value,
+    };
+    const isContactExists = contacts.some(
+      contact => contact.name === form.elements.name.value
+    );
+    if (isContactExists) {
+      alert(`${form.elements.name.value} is already in contacts.`);
+    } else {
+
+      dispatch(addContact(contact));
+    }
 
 
-    onSubmit(name, number);
-    reset();
+    form.reset();
   };
 
-  const reset = () => {
-    setNumber("");
-    setName("")
-  };
 
   return (
     <div>
@@ -36,8 +43,7 @@ export default function Form({ onSubmit }) {
             <input
               type="text"
               name="name"
-              value={name}
-              onChange={handleNameChange}
+
               pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
               required
@@ -51,8 +57,7 @@ export default function Form({ onSubmit }) {
               name="number"
               pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-              value={number}
-              onChange={handleNumberChange}
+
               id={numberId}
               required
             />

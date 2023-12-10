@@ -1,10 +1,10 @@
 import Contact from 'components/Contact/Contact';
 
-const ListContacts = props => {
+export const ListContacts = () => {
   return (
     <div className="contacts">
-      <Contact props={props.myContacts} onDelete={props.onDelete} />
+      <Contact />
     </div>
   );
 };
-export default ListContacts;
+
