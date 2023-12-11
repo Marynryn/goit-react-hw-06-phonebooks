@@ -1,12 +1,12 @@
 import css from '../Contact/Contact.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from 'components/redux/mySlice';
+import { deleteContact, getContacts } from 'components/redux/mySlice';
+import { getFilter } from 'components/redux/mySliceFilter';
 
 const Contact = () => {
-  const contacts = useSelector(state => state.myValue.contacts);
-  const myFilter = useSelector(state => state.myFilter.filter)
-  console.log(myFilter)
-  const dispatch = useDispatch()
+  const contacts = useSelector(getContacts);
+  const myFilter = useSelector(getFilter);
+  const dispatch = useDispatch();
   const formatNumber = number => {
     return number.replace(/(\d{3})(\d{2})(\d{2})/, `$1-$2-$3`);
   };

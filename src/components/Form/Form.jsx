@@ -2,11 +2,11 @@
 import { nanoid } from 'nanoid';
 import css from '../Form/Form.module.css';
 import { useSelector, useDispatch } from "react-redux"
-import { addContact } from 'components/redux/mySlice';
+import { addContact, getContacts } from 'components/redux/mySlice';
 
 
 export default function Form() {
-  const contacts = useSelector(state => state.myValue.contacts)
+  const contacts = useSelector(getContacts)
   const dispatch = useDispatch();
   const nameId = nanoid();
   const numberId = nanoid();
@@ -28,8 +28,6 @@ export default function Form() {
 
       dispatch(addContact(contact));
     }
-
-
     form.reset();
   };
 
@@ -43,7 +41,6 @@ export default function Form() {
             <input
               type="text"
               name="name"
-
               pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
               required

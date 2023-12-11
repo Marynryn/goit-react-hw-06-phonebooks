@@ -10,3 +10,4 @@ export const mySliceFilter = createSlice({
   },
 });
 export const { addFilter } = mySliceFilter.actions;
+export const getFilter = state => state.myFilter.filter;
